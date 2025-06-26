@@ -16,6 +16,7 @@ var (
 	templateType   string
 	templateRepo   string
 	templateBranch string
+	moduleName     string
 )
 
 var newCmd = &cobra.Command{
@@ -160,9 +161,13 @@ func downloadFile(url, destPath string) error {
 func processTemplateVariables(projectName string) error {
 	fmt.Printf("🔧 Processing template variables...\n")
 
+	if moduleName == "" {
+		moduleName = projectName
+	}
+
 	variables := map[string]string{
 		"{{PROJECT_NAME}}": projectName,
-		"{{MODULE_NAME}}":  projectName,
+		"{{MODULE_NAME}}":  moduleName,
 		"{{APP_NAME}}":     strings.Title(projectName),
 		"{{PACKAGE_NAME}}": strings.ToLower(projectName),
 	}
@@ -221,6 +226,7 @@ func init() {
 	newCmd.Flags().StringVarP(&templateType, "template", "t", "default", "Template type (default)")
 	newCmd.Flags().StringVar(&templateRepo, "repo", "go-bold/templates", "Template repository")
 	newCmd.Flags().StringVar(&templateBranch, "branch", "main", "Template repository branch")
+	newCmd.Flags().StringVar(&moduleName, "mod", "", "Template module name")
 
 	rootCmd.AddCommand(newCmd)
 }
