@@ -1,0 +1,19 @@
+package migrations
+
+import (
+	"database/sql"
+	"github.com/go-bold/bold/migrations"
+)
+
+type {{.StructName}} struct{}
+
+func (m *{{.StructName}}) Up(db *sql.DB) error {
+    return migrations.PostgreSQL.Create(db, "{{.TableName}}", func(table migrations.PostgreSQLBlueprint) {
+        table.ID()
+        table.Timestamps()
+    })
+}
+
+func (m *{{.StructName}}) Down(db *sql.DB) error {
+    return migrations.PostgreSQL.DropIfExists(db, "{{.TableName}}")
+}

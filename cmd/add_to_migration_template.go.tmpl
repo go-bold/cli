@@ -1,0 +1,20 @@
+package migrations
+
+import (
+	"database/sql"
+	"github.com/go-bold/bold/migrations"
+)
+
+type {{.StructName}} struct{}
+
+func (m *{{.StructName}}) Up(db *sql.DB) error {
+    return migrations.PostgreSQL.Table(db, "{{.TableName}}", func(table migrations.PostgreSQLBlueprint) {
+        // Add your columns here
+    })
+}
+
+func (m *{{.StructName}}) Down(db *sql.DB) error {
+    return migrations.PostgreSQL.Table(db, "{{.TableName}}", func(table migrations.PostgreSQLBlueprint) {
+        // Drop your columns here
+    })
+}
